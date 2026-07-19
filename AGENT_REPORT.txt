@@ -1,0 +1,5 @@
+DONE
+Deleted prototype/stance_prototype.py (fake stance scores on synthetic companies) and its tracked PNG; git rm --cached the old PNG and added prototype/figures/ to .gitignore so figures stay local-only going forward.
+Replaced it with prototype/pipeline_diagram.py, which draws pipeline.png: an explanatory architecture diagram (barcode scan -> Google Vision -> product/parent-company resolution -> GDELT news pull -> fine-tuned RoBERTa stance classifier -> stance+sources card -> human decides), tagged "architecture as built — no scores shown, no evaluation data survived the weekend." No invented metrics anywhere.
+Ran the script with the required venv/MPLCONFIGDIR and confirmed prototype/figures/pipeline.png exists on disk (109KB) while `git ls-files | grep png` returns nothing tracked.
+Rewrote the README Prototype section to describe the diagram (not the old chart), point the embed at the hosted Supabase copy for Buycott, and note that the local script regenerates it.
