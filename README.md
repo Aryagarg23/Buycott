@@ -25,17 +25,32 @@ The pipeline, roughly:
 
 Stack: Flutter/Dart, Flask, Google Cloud (Cloud Storage, Cloud Run), Google Vision API, a fine-tuned RoBERTa model, GDELT, HuggingFace.
 
+## Running the archived backend
+
+The backend is a Flask prototype, not a turnkey hosted service. It needs Python with `Flask`, `requests`, `pandas`, `fuzzywuzzy`, and `google-cloud-storage` installed, plus working Google Cloud Application Default Credentials with read access to the bucket. From the repository root:
+
+```sh
+python -m pip install Flask requests pandas fuzzywuzzy google-cloud-storage
+export GO_UPC_API_KEY="your-go-upc-api-key"
+export GCS_BUCKET_NAME="tagged-all"
+export GCS_CSV_FILE_PATH="tagged_all.csv"
+python app.py
+```
+
+`GO_UPC_API_KEY` is required for `/companyname`; the two GCS settings default to the values shown. Google Cloud credentials are provided through the standard Application Default Credentials mechanism, not checked into this repository. The optional `PORT` setting defaults to `8080`. The news corpus and fine-tuned classifier are not included, so the service cannot return the original stance results without the separately stored data.
+
 ## Prototype
 
 `prototype/pipeline_diagram.py` draws the architecture as built — barcode scan through Google Vision, product-to-parent-company resolution, the GDELT news pull, the fine-tuned RoBERTa stance classifier, the resulting card of stance + source articles, and the human who actually decides. It's a diagram, not a result: no fine-tuned model or tagged corpus survived the weekend, so there are no scores, counts, or accuracies to plot — only the pipeline shape.
 
-Run it:
+The diagram script only needs Python and Matplotlib. Run from the repository root:
 
-```
-MPLCONFIGDIR=/home/arya/projects/hackathons/.mplcache /home/arya/projects/hackathons/.venv/bin/python prototype/pipeline_diagram.py
+```sh
+python -m pip install matplotlib
+python prototype/pipeline_diagram.py
 ```
 
-It saves one diagram to `prototype/figures/` (not committed — regenerate locally with the command above):
+It saves `prototype/figures/pipeline.png` locally (the generated figure is ignored by Git):
 
 ![How Buycott turns a scanned barcode into a sourced stance, architecture as built](https://vircgxpcwyvniemqmdyi.supabase.co/storage/v1/object/public/media/writing/Buycott/pipeline.png)
 

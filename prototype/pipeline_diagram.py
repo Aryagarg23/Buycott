@@ -5,16 +5,11 @@ and tagged corpus aren't in this repo and no evaluation data survived the
 hackathon weekend, so there is nothing measured left to plot.
 """
 import os
-
-os.environ.setdefault("MPLCONFIGDIR", "/home/arya/projects/hackathons/.mplcache")
-
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
-
-plt.style.use("/home/arya/projects/hackathons/.style/garg-paper.mplstyle")
 
 INK = "#282215"
 HAIRLINE = "#c6b99f"

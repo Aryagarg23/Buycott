@@ -25,8 +25,12 @@ def load_csv_from_gcs(bucket_name, blob_name):
 @app.route("/companyname", methods=["GET"])
 def getCompanyName():
     barcode = request.args.get('barcode')
-    url = f"https://go-upc.com/api/v1/code/{barcode}?key=9b027748e412b688f7b3a6d8bb70d2f4e4b357cbb35ee929137a4e846455939e&format=true"
+    api_key = os.getenv("GO_UPC_API_KEY")
+    if not api_key:
+        return jsonify({"error": "GO_UPC_API_KEY is not configured"}), 503
+    url = f"https://go-upc.com/api/v1/code/{barcode}"
     parameters = {
+        "key": api_key,
         "query": barcode,
         "mode": "artlist",
         "format": "json"
